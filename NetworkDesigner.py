@@ -5,12 +5,19 @@
 import edge_generator,mst_generator
 
 
-edge_list = edge_generator.generate()
+city_list, edge_list = edge_generator.generate()
 	
 
-for edge in edge_list:
-	print str(edge)
+#for edge in edge_list:
+#	print str(edge)
+sorted_edge_list = sorted(edge_list, key=lambda edge: edge.reliability, reverse=True)
 
 
+mst =  mst_generator.kruskal(city_list, sorted_edge_list)
 
-mst_generator.generate(edge_list)
+reliability_mst = 1
+for edge in mst:
+	reliability_mst = reliability_mst*float(edge.reliability)
+
+print mst
+print reliability_mst

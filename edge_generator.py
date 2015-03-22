@@ -28,5 +28,5 @@ def generate():
 		else:
 			col= col+1
 
-	return edge_list
+	return city_list, edge_list
 
