@@ -9,8 +9,8 @@ def readValueFromFile(filePath):
 	input_file  = open(filePath)
 
 	number_of_cities = input_file.readline()
-	costs = input_file.readline().split(',')
-	reliabilities = input_file.readline().split(',')
+	costs = input_file.readline().rstrip('\n').split(',')
+	reliabilities = input_file.readline().rstrip('\n').split(',')
 	return number_of_cities,costs,reliabilities
 
 def generate():

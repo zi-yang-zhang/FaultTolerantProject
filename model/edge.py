@@ -5,5 +5,16 @@ class Edge(object):
 		self.cost = cost
 		self.reliability = reliability
 
-	def __str__(self):
-		return 'endpoints: ' + self.end_point_1  + self.end_point_2 + ' cost: ' + self.cost +' reliability: '+ self.reliability +'\n'
+	def __repr__(self):
+		return 'endpoints: {}, cost: {}, reliability: {} \n'.format(self.end_point_1+"<->"+self.end_point_2,
+                                  self.cost,
+                                  self.reliability)
+	def __cmp__(self, other):
+		return self.getReliability().__cmp__(other.getReliability())
+
+
+	def getCost(self):
+		return self.cost
+
+	def getReliability(edge):
+		return edge.reliability
