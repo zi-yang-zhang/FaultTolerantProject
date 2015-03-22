@@ -19,5 +19,12 @@ reliability_mst = 1
 for edge in mst:
 	reliability_mst = reliability_mst*float(edge.reliability)
 
+edge_set = set(sorted_edge_list)
+mst_set = set(mst)
+
+unused_edge = edge_set.difference(mst_set)
+
+
 print mst
+print unused_edge
 print reliability_mst
