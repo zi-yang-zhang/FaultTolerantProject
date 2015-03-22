@@ -21,7 +21,7 @@ def generate():
 	row = 0
 	col = 1
 	for reliability,cost in zip(reliabilities,costs):
-		edge_list.append(Edge(city_list[row],city_list[col],cost,reliability))
+		edge_list.append(Edge(city_list[row],city_list[col],float(cost),float(reliability)))
 		if(col == len(city_list)-1):
 			row = row+1
 			col = row+1

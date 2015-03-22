@@ -17,7 +17,7 @@ mst =  mst_generator.kruskal(city_list, sorted_edge_list)
 
 reliability_mst = 1
 for edge in mst:
-	reliability_mst = reliability_mst*float(edge.reliability)
+	reliability_mst = reliability_mst*edge.reliability
 
 edge_set = set(sorted_edge_list)
 mst_set = set(mst)
