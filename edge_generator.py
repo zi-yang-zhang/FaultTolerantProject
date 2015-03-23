@@ -13,8 +13,8 @@ def readValueFromFile(filePath):
 	reliabilities = input_file.readline().rstrip('\n').split(',')
 	return number_of_cities,costs,reliabilities
 
-def generate():
-	number_of_cities, costs,reliabilities = readValueFromFile("input_file")
+def generate(filePath):
+	number_of_cities, costs,reliabilities = readValueFromFile(filePath)
 
 	city_list = alphabet_list[0:int(number_of_cities)]
 	edge_list = list()
