@@ -54,7 +54,7 @@ def sol(mst_list, notused_list, rg, budget):
     print 'b)   Meet  a  given  reliability  goal  subject  to  a  given  cost  constraint  '
     useful_listb = list(mst_list)
     useless_listb = sorted(notused_list, key=lambda edge: edge.cost, reverse=True)
-    if rmst > budget:
+    if cmst > budget:
         print 'only a) can be found'
     else:
         infob = reliabilityTable (useful_listb)
@@ -96,7 +96,7 @@ def sol(mst_list, notused_list, rg, budget):
         while money(useless_listc) > room:
             useless_listc.pop()
 
-        if uselessLength == len(useless_listc):
+        if len(useless_listc)==0:
             print 'All the not used edges are too expensive to add into the network'
         else:
             try_listc = list(useful_listc + useless_listc)
