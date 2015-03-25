@@ -13,8 +13,7 @@ except Exception, e:
     exit()
 
 print 'file path: ' + file_path
-print 'reliability goal: ' + str(reliability_goal)
-print 'cost constraint: ' + str(cost_constraint)
+
 
 city_list, edge_list = edge_generator.generate(file_path)
 sorted_edge_list = sorted(edge_list, key=lambda edge: edge.reliability, reverse=True)
@@ -28,13 +27,12 @@ mst_set = set(mst)
 
 unused_edge = edge_set.difference(mst_set)
 
-
-print 'The given network has following edges to be used'
+print "================================================================================================="
+print 'The given network has following edges to be used:'
 print sorted_edge_list
-print 'Desired reliability goal of the network'
-print reliability_goal
-print 'Cost constrain of the network'
-print cost_constraint
+print 'reliability goal: ' + str(reliability_goal)
+print 'cost constraint: ' + str(cost_constraint)
+print "================================================================================================="
 reliability_mst = 1
 cost_mst = 0
 for edge in mst:
@@ -45,10 +43,13 @@ for edge in mst:
 edge_set = set(sorted_edge_list)
 mst_set = set(mst)
 unused_edge = edge_set.difference(mst_set)
-
-print '\nThe minimum spanning tree is:'
+print "================================================================================================="
+print 'The minimum spanning tree is:'
 print mst
-print '\n'
+print 'Reliability of minimum spanning tree:' + str(reliability_mst)
+print 'Cost of minimum spanning tree: ' + str(cost_mst)
+print "================================================================================================="
+
 
 reliability_calculator.sol(mst_set, unused_edge, reliability_goal, cost_constraint)
 

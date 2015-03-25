@@ -32,15 +32,11 @@ def sol(mst_list, notused_list, rg, budget):
     numOfNodes = len(nodes)
 
 
-    info_mst = reliabilityTable (mst_list)
-    rmst = info_mst.pop()
-    cmst = info_mst.pop()
-
+    info_mst,cmst,rmst = reliabilityTable (mst_list)
+    print "================================================================================================="
     print 'a)   Meet  a  given  reliability  goal by calculating the reliability for fully connected network '
     all_list = list(mst_list + notused_list)
-    info = reliabilityTable (all_list)
-    rmax = info.pop()
-    cost = info.pop()
+    info,cost,rmax = reliabilityTable (all_list)
     if rmax < rg:
         print 'cannot meet a given reliability goal since reliability for fully connected network is still smaller than the goal'
     else:
@@ -50,16 +46,14 @@ def sol(mst_list, notused_list, rg, budget):
         print rmax
         print 'Network Cost'
         print cost
-
+    print "================================================================================================="
     print 'b)   Meet  a  given  reliability  goal  subject  to  a  given  cost  constraint  '
     useful_listb = list(mst_list)
     useless_listb = sorted(notused_list, key=lambda edge: edge.cost, reverse=True)
     if cmst > budget:
         print 'only a) can be found'
     else:
-        infob = reliabilityTable (useful_listb)
-        rb = infob.pop()
-        cb = infob.pop()
+        infob, cb,rb = reliabilityTable (useful_listb)
         if rb>= rg:
             print 'minimum spanning tree meets reliability goal and the constrain'
             print 'Network design'
@@ -72,9 +66,7 @@ def sol(mst_list, notused_list, rg, budget):
         else:
             while rb < rg and cb<budget and len(useless_listb) > 0:
                 useful_listb.append(useless_listb.pop())
-                infob = reliabilityTable (useful_listb)
-                rb = infob.pop()
-                cb = infob.pop()
+                infob, cb,rb = reliabilityTable (useful_listb)
             print 'Network design'
             print infob
             print 'Network Reliability'
@@ -83,7 +75,7 @@ def sol(mst_list, notused_list, rg, budget):
             print cb
 
 
-
+    print "================================================================================================="
     print 'c)   Maximize  reliability  subject  to  a  given  cost  constraint'
     useful_listc = list(mst_list)
     useless_listc = sorted(notused_list, key=lambda edge: edge.reliability, reverse=True)
@@ -100,15 +92,14 @@ def sol(mst_list, notused_list, rg, budget):
             print 'All the not used edges are too expensive to add into the network'
         else:
             try_listc = list(useful_listc + useless_listc)
-            infoc = reliabilityTable (try_listc)
-            rtryc = infoc.pop()
-            costc = infoc.pop()
+            infoc, costc, rtryc = reliabilityTable (try_listc)
             print 'Network design'
             print infoc
             print 'Network Reliability'
             print rtryc
             print 'Network Cost'
             print costc
+    print "================================================================================================="
 
 
 
@@ -160,7 +151,7 @@ def reliabilityTable (test_list):
     for i in xrange(len(rproduct_list)):
         reliability = reliability+rproduct_list[i]*allConnected_list[i]
 
-    return [test_list, cost, reliability]
+    return test_list, cost, reliability
 
 
 
