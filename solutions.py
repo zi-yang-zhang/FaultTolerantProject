@@ -16,7 +16,7 @@ def sol(mst_list, notused_list, rgoal, budget):
     info,cost,rmax = findRmax(mst_list, notused_list, rgoal)
     if rmax < rgoal:
         print 'Cannot meet a given reliability goal since reliability for fully connected network is still smaller than the goal'
-        print 'the fully connected network reliability is: ' + str(rmax)
+        print 'The fully connected network reliability is: ' + str(rmax)
     else:
         print 'Network design'
         print info
@@ -35,11 +35,11 @@ def sol(mst_list, notused_list, rgoal, budget):
         if rmax < rgoal:
             print 'The network of reliability ' + str(rgoal) + 'cannot be found'
         else:
-            print 'only a) can be found'
+            print 'Only a) can be found'
     else:
         infob, costb,rb = reliability_calculator.reliabilityTable (useful_listb)
         if rb>= rgoal:
-            print 'minimum spanning tree meets reliability goal and the constrain'
+            print 'Minimum spanning tree meets reliability goal and the constrain'
             print 'Network design'
             print infob
             print 'Network Reliability'
@@ -70,7 +70,7 @@ def sol(mst_list, notused_list, rgoal, budget):
                 print 'After building the minimum spanning tree we still have $' + str(room)
                 # determine if the cost of minimum spanning tree is too much or not
                 if costOfEdges(mst_list) > budget:
-                    print 'only a) can be found'
+                    print 'Only a) can be found'
                 else:
                     # get rid of those very expensive edges
                     for edge in useless_listb2:
@@ -92,9 +92,9 @@ def sol(mst_list, notused_list, rgoal, budget):
             # cannot meet the reliability goal if both methods didn't work
             if rb<rgoal:
                 if rmax < rgoal:
-                    print 'The network of reliability ' + str(rgoal) + 'cannot be found'
+                    print 'The network of reliability: ' + str(rgoal) + ' cannot be found'
                 else:
-                    print 'only a) can  be found'
+                    print 'Only a) can  be found'
             else:
                 print 'Network design'
                 print infob
@@ -123,39 +123,33 @@ def sol(mst_list, notused_list, rgoal, budget):
 
     if rb<rgoal:
         if rmax < rgoal:
-            print 'The network of reliability ' + str(rgoal) + 'cannot be found'
+            print 'The network of reliability: ' + str(rgoal) + ' cannot be found'
         else:
-            print 'only a) can  be found'
+            print 'Only a) can  be found!'
 
     elif cmst == budget and rmst >= rgoal:
-        print 'minimum spanning tree meets reliability goal and the constrain'
+        print 'Minimum spanning tree meets reliability goal and the constrain'
         print 'Network design'
         print info_mst
         print 'Network Reliability'
         print rmst
         print 'Network Cost'
         print cmst
-    elif costb == budget and rb >=rgoal:
-        # it is possible that the network found in part b is already optimal
-        print 'After building the network for b) we still have $' + str(roomb)
-        print 'the solution is the same as b)'
-        print useless_listc
-        print 'Network design'
-        print infob
-        print 'Network Reliability'
-        print rb
-        print 'Network Cost'
-        print costb
     else:
-        print 'After building the network for b) we still have $' + str(roomb)
-        # get rid of extremely expensive edges
+
+        # c1 is building the network on top of the network of solution b)
+        # c2 is building the network on top of the minimum spanning tree
         infoc1, costc1, rc1 = findRc(useful_listc, useless_listc, roomb)
         infoc2, costc2, rc2 = findRc(useful_listc2, useless_listc2, room)
+
+        # if the edge left are too expensive to be added into the network,
+        # the optimal reliability of it should be the same as in b)
         if rc1==0:
             infoc1, costc1, rc1 = infob, costb, rb
 
 
         if rc1 > rc2:
+            print 'After building the network for b) we still have $' + str(roomb)
             print 'Network design'
             print infoc1
             print 'Network Reliability'
