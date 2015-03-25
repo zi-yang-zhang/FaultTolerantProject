@@ -127,6 +127,14 @@ def sol(mst_list, notused_list, rgoal, budget):
         else:
             print 'Only a) can  be found!'
 
+    elif cmst == budget and rmst >= rgoal:
+        print 'Minimum spanning tree is the optimal answer'
+        print 'Network design'
+        print info_mst
+        print 'Network Reliability'
+        print rmst
+        print 'Network Cost'
+        print cmst
     else:
 
         # c1 is building the network on top of the network of solution b)
