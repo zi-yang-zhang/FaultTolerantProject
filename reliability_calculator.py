@@ -6,14 +6,6 @@ def sol(mst_list, notused_list, rgoal, budget):
     mst_list = sorted(mst_list, key=lambda edge: edge.vertice_1, reverse=True)
 
 
-    cmin=0
-
-
-    nodes1 = list()
-    nodes2 = list()
-
-    # for debug graph function
-    # getGraph(mst_list)
 
 
 
@@ -80,13 +72,10 @@ def sol(mst_list, notused_list, rgoal, budget):
                 if costOfEdges(mst_list) > budget:
                     print 'only a) can be found'
                 else:
-
-                    print useless_listb2
                     # get rid of those very expensive edges
                     for edge in useless_listb2:
                         if edge.cost> room:
                            useless_listb2.remove(edge)
-                    print useless_listb2
 
                     # get rid of some expensive edges, to make sure the cost of mst and the cost of not-used edges list is under constrain
                     while costOfEdges(useless_listb2) > room:
