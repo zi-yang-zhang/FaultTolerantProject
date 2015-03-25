@@ -50,7 +50,7 @@ def sol(mst_list, notused_list, rgoal, budget):
                 useful_listb.append(useless_listb.pop())
                 last_info, last_cost, last_r = infob, costb, rb
                 infob, costb,rb = reliabilityTable (useful_listb)
-                print costb, rb
+
             if costb>budget: # for correcting the value, since it might jump out of while loop by cost larger than budget
                 infob, costb, rb = last_info, last_cost, last_r
             if (rb<rgoal):
@@ -99,6 +99,14 @@ def sol(mst_list, notused_list, rgoal, budget):
             # cannot meet the reliability goal if both methods didn't work
             if rb<rgoal:
                 print 'Cannot meet the reliability goal because of the cost constrain'
+                print 'only a) can  be found'
+                print 'Network design'
+                print infob
+                print 'Network Reliability'
+                print rb
+                print 'Network Cost'
+                print costb
+
 
 
 
@@ -115,9 +123,9 @@ def sol(mst_list, notused_list, rgoal, budget):
     # calculate for how much more that we can spend on extra edges for redundancy
     print 'After building the minimum spanning tree we still have $' + str(room)
 
-    if costOfEdges(mst_list) > budget:
+    if rb<rgoal:
         print 'only a) can be found'
-    elif costOfEdges(mst_list) == budget:
+    elif cmst == budget and rmst >= rgoal:
         print 'minimum spanning tree meets reliability goal and the constrain'
         print 'Network design'
         print info_mst
@@ -125,7 +133,7 @@ def sol(mst_list, notused_list, rgoal, budget):
         print rmst
         print 'Network Cost'
         print cmst
-    elif costb >= budget:
+    elif costb == budget and rb >=rgoal:
         # it is possible that the network found in part b is already optimal
         print 'After building the network for b) we still have $' + str(roomb)
         print 'the solution is the same as b)'
@@ -149,6 +157,7 @@ def sol(mst_list, notused_list, rgoal, budget):
 
         if len(useless_listc)==0:
             print 'All the not used edges are too expensive to add into the network'
+            print 'only a) can be found'
         else:
             try_listc = list(useful_listc + useless_listc)
             infoc, costc, rc = reliabilityTable (try_listc)
@@ -233,18 +242,17 @@ def truthtable (n):
 # graph example {'A': set(['C']), 'C': set(['A', 'B', 'D']), 'B': set(['C', 'E']), 'E': set(['B']), 'D': set(['C'])}
 
 # using depth first to search for the network
-def dfs(graph, start):
+def dfs(graph_in, start):
     visited = set()
     stack = [start]
+    graph = graph_in.copy()
     while stack:
         vertex = stack.pop()
         if vertex not in visited:
             # print vertex
             visited.add(vertex)
-            try:
-                stack.extend(graph[vertex] - visited)
-            except KeyError:
-                print graph
+            stack.extend(graph[vertex] - visited)
+
 
     return visited
 
@@ -254,6 +262,7 @@ def dfs(graph, start):
 # input_list is the list of edges
 def isAllConnected(truth_list, input_list):
     cities_list = list()
+    connected_cities = list()
     test_list = list(input_list)
 
     # need to know how many cities in the network
@@ -272,6 +281,9 @@ def isAllConnected(truth_list, input_list):
         if truth_list[i] == 0:
             test_list.remove(edge)
         i = i+1
+    for edge in test_list:
+        connected_cities.append(edge.vertice_1)
+        connected_cities.append(edge.vertice_2)
 
     # if the edges is less than the cities number -1
     # some of the cities is isolated
@@ -281,7 +293,7 @@ def isAllConnected(truth_list, input_list):
         return 0
 
     # check which cities will be visited
-    visited_list = dfs(test_graph,cities_list[1])
+    visited_list = dfs(test_graph,connected_cities[1])
     # if the visited cities is less than the cities in the network
     # it means some cities are isolated
     if len(cities_list) > len(visited_list):
