@@ -198,11 +198,13 @@ def findRc(useful_list, useless_list, room):
         info, cost, rmax = reliability_calculator.reliabilityTable (try_listc)
     return info, cost, rmax
 
+# for finding the solution for a)
 def findRmax(useful_list, useless_list, rgoal):
     useless_list = sorted(useless_list,key=lambda edge: edge.reliability, reverse=False)
     try_list = list(useful_list)
     info, cost, rmax = reliability_calculator.reliabilityTable (try_list)
 
+    # increment the edge having the largest reliability into the network each time and compare to the rgoal
     while (rgoal>rmax) and len(useless_list)>0:
         try_list.append(useless_list.pop())
         info, cost, rmax = reliability_calculator.reliabilityTable (try_list)
