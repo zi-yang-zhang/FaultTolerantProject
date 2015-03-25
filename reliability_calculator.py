@@ -28,6 +28,7 @@ def sol(mst_list, notused_list, rgoal, budget):
     useful_listb = list(mst_list)
     useless_listb = sorted(notused_list, key=lambda edge: edge.cost, reverse=True)
     method2 = False
+    costb = -1
     if cmst > budget:
         print 'only a) can be found'
     else:
@@ -49,6 +50,7 @@ def sol(mst_list, notused_list, rgoal, budget):
                 useful_listb.append(useless_listb.pop())
                 last_info, last_cost, last_r = infob, costb, rb
                 infob, costb,rb = reliabilityTable (useful_listb)
+                print costb, rb
             if costb>budget: # for correcting the value, since it might jump out of while loop by cost larger than budget
                 infob, costb, rb = last_info, last_cost, last_r
             if (rb<rgoal):
@@ -108,12 +110,21 @@ def sol(mst_list, notused_list, rgoal, budget):
     useless_listc = sorted(useless_listb, key=lambda edge: edge.reliability, reverse=True)
     uselessLength = len(useless_listc)
     room = budget - costOfEdges(mst_list)
-    roomb = budget - costb
+    if costb>0:
+        roomb = budget - costb
     # calculate for how much more that we can spend on extra edges for redundancy
     print 'After building the minimum spanning tree we still have $' + str(room)
 
-    if costOfEdges(mst_list) >= budget:
+    if costOfEdges(mst_list) > budget:
         print 'only a) can be found'
+    elif costOfEdges(mst_list) == budget:
+        print 'minimum spanning tree meets reliability goal and the constrain'
+        print 'Network design'
+        print info_mst
+        print 'Network Reliability'
+        print rmst
+        print 'Network Cost'
+        print cmst
     elif costb >= budget:
         # it is possible that the network found in part b is already optimal
         print 'After building the network for b) we still have $' + str(roomb)
