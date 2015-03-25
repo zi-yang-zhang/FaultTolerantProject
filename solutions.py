@@ -15,7 +15,8 @@ def sol(mst_list, notused_list, rgoal, budget):
     print 'a)   Meet  a  given  reliability  goal by adding the largest reliability edge into the the network each time '
     info,cost,rmax = findRmax(mst_list, notused_list, rgoal)
     if rmax < rgoal:
-        print 'cannot meet a given reliability goal since reliability for fully connected network is still smaller than the goal'
+        print 'Cannot meet a given reliability goal since reliability for fully connected network is still smaller than the goal'
+        print 'the fully connected network reliability is: ' + str(rmax)
     else:
         print 'Network design'
         print info
@@ -31,7 +32,10 @@ def sol(mst_list, notused_list, rgoal, budget):
     costb = -1
     rb = 0
     if cmst > budget:
-        print 'only a) can be found'
+        if rmax < rgoal:
+            print 'The network of reliability ' + str(rgoal) + 'cannot be found'
+        else:
+            print 'only a) can be found'
     else:
         infob, costb,rb = reliability_calculator.reliabilityTable (useful_listb)
         if rb>= rgoal:
@@ -87,7 +91,10 @@ def sol(mst_list, notused_list, rgoal, budget):
 
             # cannot meet the reliability goal if both methods didn't work
             if rb<rgoal:
-                print 'only a) can  be found'
+                if rmax < rgoal:
+                    print 'The network of reliability ' + str(rgoal) + 'cannot be found'
+                else:
+                    print 'only a) can  be found'
             else:
                 print 'Network design'
                 print infob
@@ -115,7 +122,11 @@ def sol(mst_list, notused_list, rgoal, budget):
     print 'After building the minimum spanning tree we still have $' + str(room)
 
     if rb<rgoal:
-        print 'only a) can be found'
+        if rmax < rgoal:
+            print 'The network of reliability ' + str(rgoal) + 'cannot be found'
+        else:
+            print 'only a) can  be found'
+
     elif cmst == budget and rmst >= rgoal:
         print 'minimum spanning tree meets reliability goal and the constrain'
         print 'Network design'
