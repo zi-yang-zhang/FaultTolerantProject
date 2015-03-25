@@ -12,7 +12,7 @@ def sol(mst_list, notused_list, rgoal, budget):
 
     info_mst,cmst,rmst = reliability_calculator.reliabilityTable (mst_list)
     print "================================================================================================="
-    print 'a)   Meet  a  given  reliability  goal by calculating the reliability for fully connected network '
+    print 'a)   Meet  a  given  reliability  goal by adding the largest reliability edge into the the network each time '
     info,cost,rmax = findRmax(mst_list, notused_list, rgoal)
     if rmax < rgoal:
         print 'cannot meet a given reliability goal since reliability for fully connected network is still smaller than the goal'
@@ -146,10 +146,16 @@ def sol(mst_list, notused_list, rgoal, budget):
     else:
         print 'After building the network for b) we still have $' + str(roomb)
         # get rid of extremely expensive edges
-        infoc1, costc1, rc1 = findRc(useful_listc, useless_listc, room)
-        infoc2, costc2, rc2 = findRc(useful_listc2, useless_listc2, roomb)
+        infoc1, costc1, rc1 = findRc(useful_listc, useless_listc, roomb)
+        infoc2, costc2, rc2 = findRc(useful_listc2, useless_listc2, room)
 
-        if rc1>rc2:
+        # print 'Network design'
+        # print infoc2
+        # print 'Network Reliability'
+        # print rc2
+        # print 'Network Cost'
+        # print costc2
+        if rc1 > rc2:
             print 'Network design'
             print infoc1
             print 'Network Reliability'
@@ -185,6 +191,7 @@ def findRc(useful_list, useless_list, room):
         # remove some edges with low reliability to keep the cost with in the budget
     while costOfEdges(useless_list) > room:
         useless_list.pop()
+    print costOfEdges(useless_list), room
 
     if len(useless_list)==0:
         print 'All the not used edges are too expensive to add into the network'
@@ -197,7 +204,6 @@ def findRc(useful_list, useless_list, room):
 
 def findRmax(useful_list, useless_list, rgoal):
     useless_list = sorted(useless_list,key=lambda edge: edge.reliability, reverse=False)
-    print useless_list
     try_list = list(useful_list)
     info, cost, rmax = reliability_calculator.reliabilityTable (try_list)
 
