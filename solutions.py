@@ -56,16 +56,9 @@ def sol(mst_list, notused_list, rgoal, budget):
                 infob, costb, rb = last_info, last_cost, last_r
             if (rb<rgoal):
                 method2 = True; # using method 2 if method 1 fail, method2 tend to calculate Rmax for given cost, therefore, it's not prefered
-            else:
-                print 'Network design'
-                print infob
-                print 'Network Reliability'
-                print rb
-                print 'Network Cost'
-                print costb
+
 
             if method2:
-                print'using method 2'
                 useful_listb2 = list(mst_list)
                 # sort the not-used edges in the decreasing order of reliability
                 useless_listb2 = sorted(notused_list, key=lambda edge: edge.reliability, reverse=True)
@@ -94,7 +87,6 @@ def sol(mst_list, notused_list, rgoal, budget):
 
             # cannot meet the reliability goal if both methods didn't work
             if rb<rgoal:
-                print 'Cannot meet the reliability goal because of the cost constrain'
                 print 'only a) can  be found'
             else:
                 print 'Network design'
@@ -148,13 +140,10 @@ def sol(mst_list, notused_list, rgoal, budget):
         # get rid of extremely expensive edges
         infoc1, costc1, rc1 = findRc(useful_listc, useless_listc, roomb)
         infoc2, costc2, rc2 = findRc(useful_listc2, useless_listc2, room)
+        if rc1==0:
+            infoc1, costc1, rc1 = infob, costb, rb
 
-        # print 'Network design'
-        # print infoc2
-        # print 'Network Reliability'
-        # print rc2
-        # print 'Network Cost'
-        # print costc2
+
         if rc1 > rc2:
             print 'Network design'
             print infoc1
@@ -184,6 +173,7 @@ def costOfEdges(list):
 
 
 def findRc(useful_list, useless_list, room):
+    info, cost, rmax = [], 0, 0
     for edge in useless_list:
         if edge.cost> room:
             useless_list.remove(edge)
@@ -191,15 +181,10 @@ def findRc(useful_list, useless_list, room):
         # remove some edges with low reliability to keep the cost with in the budget
     while costOfEdges(useless_list) > room:
         useless_list.pop()
-    print costOfEdges(useless_list), room
 
-    if len(useless_list)==0:
-        print 'All the not used edges are too expensive to add into the network'
-        print 'only a) can be found'
-    else:
+    if len(useless_list)>0:
         try_listc = list(useful_list + useless_list)
         info, cost, rmax = reliability_calculator.reliabilityTable (try_listc)
-
     return info, cost, rmax
 
 def findRmax(useful_list, useless_list, rgoal):
