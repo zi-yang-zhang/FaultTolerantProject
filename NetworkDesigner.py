@@ -1,7 +1,7 @@
 # The input file is in the format:
 # Number of cities: A B C D ...(N cities)
 # Cost/Reliability matrix: A-B,A-C,A-D...B-C,B-D...C-D....(N(N-1)/2)
-import edge_generator,mst_generator,reliability_calculator
+import edge_generator,mst_generator,solutions
 
 
 try:
@@ -51,7 +51,7 @@ print 'Cost of minimum spanning tree: ' + str(cost_mst)
 print "================================================================================================="
 
 
-reliability_calculator.sol(mst_set, unused_edge, reliability_goal, cost_constraint)
+solutions.sol(mst_set, unused_edge, reliability_goal, cost_constraint)
 
 
 
