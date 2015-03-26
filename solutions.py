@@ -1,4 +1,3 @@
-__author__ = 'yearfun'
 import reliability_calculator
 
 def sol(mst_list, notused_list, rgoal, budget):
